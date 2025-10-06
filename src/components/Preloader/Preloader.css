@@ -1,0 +1,44 @@
+.preloader-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.circle-preloader {
+  width: 74px;
+  height: 74px;
+  border-left: 1px solid #1a1b22;
+  border-right: 1px solid #d1d2d600;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  margin: 0;
+}
+
+.preloader-text {
+  margin-top: 24px;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #6c707a;
+  text-align: center;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 768px) {
+}

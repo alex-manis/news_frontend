@@ -1,0 +1,290 @@
+.card {
+  max-width: 400px;
+  max-height: 576px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  clip-path: inset(0 round 16px);
+  align-items: flex-start;
+  background-color: #fff;
+}
+
+.card__image-wrapper {
+  display: flex;
+  position: relative;
+}
+
+.card__image {
+  width: 100%;
+  height: 272px;
+  object-fit: fill;
+  margin-bottom: 20px;
+}
+
+.card__keyword {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  padding: 11px 20px;
+  background: rgba(255, 255, 255, 1);
+  color: #000;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  border-radius: 8px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 10px 22px #3b4a741a;
+}
+
+.card__like-btn {
+  background: url(../../assets/like.svg) center no-repeat;
+  background-size: contain;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s;
+  position: absolute;
+  cursor: pointer;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+}
+
+.card__like-btn:not(.card__like-btn_active):hover {
+  background: url(../../assets/like-hover.svg);
+  background-size: contain;
+}
+
+.card__like-btn_active {
+  background: url(../../assets/like-marked.svg) center no-repeat;
+  background-size: contain;
+}
+
+.card__content {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 24px;
+  margin: 0;
+  flex: 1;
+}
+
+.card__date {
+  margin: 0;
+  font-family: "Sourse Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #b6bcbf;
+}
+
+.card__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 12px 0 16px 0;
+  font-family: "Roboto Slab", "Helvetica Neue", Arial, sans-serif;
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 400;
+}
+
+.card__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 18px 0;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.card__source {
+  margin-top: auto;
+  margin-bottom: 24px;
+  font-family: "Roboto Slab", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #b6bcbf;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.card__action-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.card__tooltip {
+  position: absolute;
+  top: 24px;
+  right: 69px;
+  padding: 11px 20px;
+  background: rgba(255, 255, 255, 1);
+  color: #000;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  border-radius: 8px;
+  white-space: nowrap;
+  z-index: 10;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s;
+  box-shadow: 0 10px 22px #3b4a741a;
+}
+
+.card__action-wrapper:hover .card__tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.card__delete-btn {
+  background: url(../../assets/delete.svg) center no-repeat;
+  background-size: contain;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s;
+  position: absolute;
+  cursor: pointer;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+}
+
+.card__delete-btn:hover {
+  background: url(../../assets/delete-hover.svg);
+  background-size: contain;
+}
+
+.card__link-article {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card__link-article:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .card {
+    max-width: 224px;
+    max-height: 420px;
+  }
+  .card__image {
+    width: 100%;
+    height: 150px;
+  }
+
+  .card__keyword {
+    top: 8px;
+    left: 8px;
+    padding: 8px 20px;
+    font-size: 14px;
+    line-height: 24px;
+    border-radius: 10px;
+  }
+
+  .card__like-btn {
+    top: 8px;
+    right: 8px;
+  }
+
+  .card__content {
+    padding: 0px 16px;
+  }
+
+  .card__date {
+  }
+
+  .card__title {
+    -webkit-line-clamp: 3;
+    margin: 8px 0 10px 0;
+    font-size: 22px;
+    line-height: 24px;
+  }
+
+  .card__description {
+    -webkit-line-clamp: 4;
+    margin: 0 0 12px 0;
+  }
+
+  .card__source {
+    margin-bottom: 16px;
+  }
+
+  .card__tooltip {
+    top: 8px;
+    right: 55px;
+    padding: 11px 20px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .card__delete-btn {
+    top: 8px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 288px;
+    max-height: 440px;
+  }
+  .card__image {
+    width: 100%;
+    height: 196px;
+  }
+
+  .card__keyword {
+    top: 16px;
+    left: 16px;
+    padding: 8px 20px;
+    font-size: 14px;
+    line-height: 24px;
+    border-radius: 10px;
+  }
+
+  .card__like-btn {
+    top: 16px;
+    right: 16px;
+  }
+
+  .card__title {
+    -webkit-line-clamp: 2;
+    margin: 10px 0 14px 0;
+    font-size: 22px;
+    line-height: 24px;
+  }
+
+  .card__description {
+    margin: 0 0 8px 0;
+  }
+
+  .card__tooltip {
+    top: 16px;
+    right: 60px;
+    padding: 11px 20px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .card__delete-btn {
+    top: 16px;
+    right: 16px;
+  }
+}

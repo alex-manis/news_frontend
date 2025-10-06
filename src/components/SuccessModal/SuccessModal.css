@@ -1,0 +1,36 @@
+.success-modal__content {
+  padding: 0;
+  margin: 9px auto 23px 0;
+}
+
+.success-modal__title {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 100%;
+  font-weight: 900;
+  margin: 0;
+}
+
+.success-modal__button {
+  margin-top: 14px;
+  background: transparent;
+  border: none;
+  color: #2f71e5;
+  cursor: pointer;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 100%;
+  font-weight: 400;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+.success-modal__button:hover {
+  color: #347eff;
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 768px) {
+}

@@ -1,12 +1,31 @@
-# React + Vite
+# NewsExplorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**NewsExplorer** is a React-based web application that allows users to search for news articles, save their favorites, and manage their account. The app features user authentication, interactive UI, and responsive design.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Search News:** Users can search for articles using keywords via a news API.
+- **User Authentication:** Register, log in, and log out functionality with token-based authentication.
+- **Save Articles:** Logged-in users can save articles to their personal list.
+- **Interactive UI:** Like/unlike articles, hover effects, and modals for login, registration, and success messages.
+- **Protected Routes:** Only authenticated users can access saved articles.
+- **Responsive Design:** Works on both desktop and mobile devices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Technologies
+
+- **Frontend:** React, React Router, Context API
+- **State Management:** React `useState`, `useEffect`
+- **Styling:** CSS Modules
+- **Forms & Validation:** Custom hook `useFormAndValidation`
+- **API Requests:** Fetch news from an external API (e.g., NewsAPI)
+- **Authentication:** Token-based authentication (register, login, check token)
+
+## Links
+
+- [Project](https://github.com/alex-manis/news_frontend)
+- [GH Pages](https://alex-manis.github.io/news_frontend)
+- [Figma Design](https://www.figma.com/design/3ottwMEhlBt95Dbn8dw1NH/Your-Final-Project)

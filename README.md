@@ -1,5 +1,7 @@
 # NewsExplorer
 
+Test user autorization: login: user@user.com password: test
+
 **NewsExplorer** is a React-based web application that allows users to search for news articles, save their favorites, and manage their account. The app features user authentication, interactive UI, and responsive design.
 
 ---

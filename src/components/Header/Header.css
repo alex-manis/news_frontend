@@ -298,6 +298,7 @@
   .search__title {
     font-size: 36px;
     line-height: 40px;
+    max-width: 285px;
   }
 
   .search__subtitle {
@@ -376,6 +377,7 @@
   }
 
   .navigation__logo {
+    font-size: 16px;
     margin: 16px 0;
     z-index: 30;
   }
@@ -458,5 +460,14 @@
     width: 100%;
     position: relative;
     padding: 16px 116px;
+  }
+}
+
+@media (max-width: 320px) {
+  .navigation {
+    padding: 0 8px;
+  }
+  .search__overlay {
+    padding: 0 8px;
   }
 }

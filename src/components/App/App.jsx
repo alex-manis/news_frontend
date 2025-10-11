@@ -18,6 +18,7 @@ import SuccessModal from "../SuccessModal/SuccessModal";
 import { getNews } from "../../utils/newsApi";
 import { getSavedNews, deleteArticle } from "../../utils/api";
 import { APIkey } from "../../utils/constants";
+import "../../vendor/fonts.css";
 
 function App() {
   // ----- State -----
@@ -207,7 +208,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <div className="page_content">
+        <div className="page__content">
           <Header
             onSearchSubmit={handleSearchSubmit}
             topic={topic}
@@ -235,7 +236,9 @@ function App() {
                   onDeleteClick={() => {}}
                   isLoading={isLoading}
                   onCardLike={handleCardLike}
-                />
+                >
+                  {!isSavedNewsPage && <About />}
+                </Main>
               }
             />
             <Route
@@ -254,7 +257,6 @@ function App() {
             />
           </Routes>
 
-          {!isSavedNewsPage && <About />}
           <Footer />
 
           <RegisterModal

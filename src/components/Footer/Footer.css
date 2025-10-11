@@ -46,8 +46,7 @@
 
 .footer__logos {
   display: flex;
-  gap: 12px;
-  align-items: center;
+  gap: 24px;
 }
 
 .footer__logo {

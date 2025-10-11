@@ -33,7 +33,7 @@
 
 .about__image-text {
   color: #fff;
-  font-family: "Roboto Slab", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
   font-size: 20px;
   line-height: 100%;
   font-weight: 400;
@@ -44,6 +44,7 @@
 .about__text {
   flex: 1;
   padding-top: 51px;
+  max-width: 600px;
 }
 
 .about__title {
@@ -104,7 +105,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .about {
     margin: 0;
     padding: 32px 24px;

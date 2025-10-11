@@ -95,6 +95,9 @@
   }
 }
 
+@media (max-width: 768px) {
+}
+
 @media (max-width: 700px) {
   .saved-news__container {
     padding: 8px 16px 32px;
@@ -124,8 +127,12 @@
   }
 
   .saved-news__list {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px;
     margin: 32px 0;
-    gap: 8px;
+    gap: 10px;
   }
 
   .saved-news__empty {

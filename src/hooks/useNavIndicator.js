@@ -2,13 +2,23 @@ import { useEffect } from "react";
 
 export function useNavIndicator(navRef, indicatorRef, location, currentUser) {
   useEffect(() => {
+    const basePath = "/news_frontend";
+
     const updateIndicator = () => {
       if (!navRef.current || !indicatorRef.current) return;
 
       const links = navRef.current.querySelectorAll(".navigation__link");
+
+      const getRelativeHref = (href) => {
+        if (!href.startsWith(basePath)) return href || "/";
+        const rel = href.slice(basePath.length);
+        return rel.startsWith("/") ? rel : "/" + rel;
+      };
+
       const activeLink =
         Array.from(links).find(
-          (link) => link.getAttribute("href") === location.pathname
+          (link) =>
+            getRelativeHref(link.getAttribute("href")) === location.pathname
         ) || navRef.current.querySelector(".navigation__link[href='/']");
 
       if (!activeLink) return;
@@ -29,7 +39,9 @@ export function useNavIndicator(navRef, indicatorRef, location, currentUser) {
       indicatorRef.current.style.width = `${indicatorWidth}px`;
       indicatorRef.current.style.transform = `translateX(${left}px)`;
       indicatorRef.current.style.backgroundColor =
-        activeLink.getAttribute("href") === "/saved-news" ? "#000" : "#fff";
+        getRelativeHref(activeLink.getAttribute("href")) === "/saved-news"
+          ? "#000"
+          : "#fff";
     };
 
     updateIndicator();

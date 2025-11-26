@@ -1,6 +1,6 @@
 import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 function RegisterModal({
@@ -9,10 +9,11 @@ function RegisterModal({
   onRegister,
   isLoading,
   onLoginClick,
+  registerError,
+  setRegisterError,
 }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
-  const [registerError, setRegisterError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,6 +86,7 @@ function RegisterModal({
         />
         <span className="modal__error">{errors.name}</span>
       </label>
+      {registerError && <p className="modal__error">{registerError}</p>}
     </ModalWithForm>
   );
 }

@@ -1,21 +1,41 @@
-import { mockSavedArticles } from "./constants";
+import { BASE_URL } from "./constants";
 
-export function getSavedNews() {
-  return Promise.resolve(mockSavedArticles);
+export function getSavedNews(token) {
+  return fetch(`${BASE_URL}/articles`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
 }
 
-export function checkResponse(res) {
-  return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+export function saveArticle(article, token) {
+  return fetch(`${BASE_URL}/articles`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(article),
+  }).then(checkResponse);
 }
 
-export function saveArticle(article) {
-  return Promise.resolve({
-    ...article,
-    _id: "test-saved-id-" + Date.now(),
-    keyword: article.keyword || "General",
-  });
+export function deleteArticle(id, token) {
+  return fetch(`${BASE_URL}/articles/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
 }
 
-export function deleteArticle(id) {
-  return Promise.resolve({ message: `Article ${id} deleted` });
+export async function checkResponse(res) {
+  const data = await res.json();
+  if (!res.ok) {
+    const error = new Error(data.message || "Something went wrong");
+    error.statusCode = res.status;
+    throw error;
+  }
+  return data;
 }

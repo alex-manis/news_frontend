@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 import "./NewsCard.css";
-import noImage from "../../assets/no-image.svg";
+import noImage from "../../assets/no-image.png";
 
 function NewsCard({
   article,
@@ -45,6 +45,7 @@ function NewsCard({
               type="button"
               className={articleLikeButtonClassName}
               onClick={currentUser ? () => onCardLike(article) : undefined}
+              disabled={article.isLoading}
             />
             {!currentUser && (
               <div className="card__tooltip">Sign in to save articles</div>

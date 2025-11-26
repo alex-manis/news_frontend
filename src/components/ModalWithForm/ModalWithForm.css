@@ -108,10 +108,12 @@
 .modal__error {
   color: #ff0000;
   margin-top: 3px;
+  margin-bottom: 0px;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 12px;
   line-height: 100%;
   font-weight: 400;
+  height: 17px;
 }
 
 .modal__login-error {

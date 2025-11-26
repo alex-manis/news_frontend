@@ -17,6 +17,7 @@ import SuccessModal from "../SuccessModal/SuccessModal";
 
 import { getNews } from "../../utils/newsApi";
 import { getSavedNews, deleteArticle } from "../../utils/api";
+import { useArticleActions } from "../../hooks/useArticleActions";
 import { APIkey } from "../../utils/constants";
 import "../../vendor/fonts.css";
 
@@ -32,9 +33,11 @@ function App() {
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [topic, setTopic] = useState("");
   const [topicError, setTopicError] = useState("");
-  const [savedArticles, setSavedArticles] = useState([]);
   const [isLoadingSaved, setIsLoadingSaved] = useState(false);
   const [savedError, setSavedError] = useState("");
+  const [registerError, setRegisterError] = useState("");
+  const { savedArticles, setSavedArticles, handleCardLike, syncNewsWithSaved } =
+    useArticleActions([], topic);
 
   const location = useLocation();
   const isSavedNewsPage = location.pathname === "/saved-news";
@@ -54,21 +57,30 @@ function App() {
 
     getNews(keyword, APIkey)
       .then((data) => {
-        if (!data.articles.length) {
+        if (!data.articles || !data.articles.length) {
           setNewsItems([]);
           setSearchError("");
         } else {
           setNewsItems(
-            data.articles.map((a, i) => ({
-              _id: `${a.url}-${i}`,
-              title: a.title,
-              description: a.description,
-              url: a.url,
-              urlToImage: a.urlToImage,
-              publishedAt: a.publishedAt,
-              source: a.source.name,
-            }))
+            data.articles.map((a, i) => {
+              const existing = savedArticles?.find(
+                (saved) => saved.url === a.url
+              );
+
+              return {
+                _id: `${a.url}-${i}`,
+                title: a.title,
+                description: a.description,
+                url: a.url,
+                urlToImage: a.urlToImage,
+                publishedAt: a.publishedAt,
+                source: a.source.name,
+                isLiked: !!existing,
+                savedId: existing?._id || null,
+              };
+            })
           );
+          setSearchError("");
         }
       })
       .catch(() => {
@@ -90,7 +102,6 @@ function App() {
     }
     setTopicError("");
     handleSearch(topic);
-    setTopic("");
   };
 
   // ----- General submit handler for requests -----
@@ -104,30 +115,38 @@ function App() {
       .finally(() => setIsLoading(false));
   };
 
-  // ----- Card like handler -----
-  const handleCardLike = (article) => {
-    setNewsItems((items) =>
-      items.map((item) => {
-        if (item._id === article._id) {
-          const isLiked = item.isLiked || false;
-          return {
-            ...item,
-            isLiked: !isLiked,
-            keyword: item.keyword || article.keyword || "",
-          };
-        }
-        return item;
-      })
-    );
-  };
-
   // ----- Registration -----
-  const handleRegister = ({ name, email, password }) =>
-    handleSubmit(() =>
-      register({ name, email, password }).then(() => {
+  const handleRegister = async ({ name, email, password }) => {
+    setLoginError("");
+    setRegisterError("");
+
+    try {
+      const data = await register({ name, email, password });
+
+      if (data.token) {
+        saveToken(data.token);
+        const user = await checkToken(data.token);
+        if (user) {
+          setCurrentUser(user.data);
+          setIsLoggedIn(true);
+          setActiveModal("");
+        }
+      } else {
         openSuccessModal();
-      })
-    );
+      }
+    } catch (err) {
+      switch (err.statusCode) {
+        case 409:
+          setRegisterError("User with this email already exists");
+          break;
+        case 400:
+          setRegisterError("Invalid data provided");
+          break;
+        default:
+          setRegisterError("Something went wrong. Please try again later");
+      }
+    }
+  };
 
   // ----- Login -----
   const handleLogin = ({ email, password }) => {
@@ -151,22 +170,54 @@ function App() {
   useEffect(() => {
     if (isLoggedIn) {
       setIsLoadingSaved(true);
-      getSavedNews()
-        .then((items) => setSavedArticles(items))
-        .catch(() => setSavedError("Failed to load saved articles"))
+      getSavedNews(getToken())
+        .then((res) => {
+          console.log("Response from getSavedNews:", res);
+          const articles = Array.isArray(res) ? res : res.data;
+          if (!articles || !Array.isArray(articles)) {
+            throw new Error("Invalid response format from server");
+          }
+          setSavedArticles(
+            articles.map((a) => ({
+              _id: a._id,
+              title: a.title,
+              description: a.text,
+              url: a.link,
+              urlToImage: a.image,
+              publishedAt: a.date,
+              source: a.source,
+              keyword: a.keyword,
+              isLiked: true,
+            }))
+          );
+        })
+        .catch((err) => {
+          console.error("Error loading saved articles:", err);
+          setSavedError("Failed to load saved articles");
+        })
         .finally(() => setIsLoadingSaved(false));
     } else {
       setSavedArticles([]);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, setSavedArticles]);
 
   // ----- Delete saved article -----
   const handleDelete = (article) => {
-    deleteArticle(article._id)
+    const token = getToken();
+    const articleId = article.savedId || article._id;
+
+    deleteArticle(articleId, token)
       .then(() => {
-        setSavedArticles((prev) => prev.filter((a) => a._id !== article._id));
+        setSavedArticles((prev) => prev.filter((a) => a._id !== articleId));
+        setNewsItems((items) =>
+          items.map((item) =>
+            item._id === article._id
+              ? { ...item, isLiked: false, savedId: null }
+              : item
+          )
+        );
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Error deleting article:", err));
   };
 
   // ----- Sign out -----
@@ -205,6 +256,14 @@ function App() {
     setTopic("");
   };
 
+  // ----- Syncronizing like status-----
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      syncNewsWithSaved(setNewsItems);
+    }
+  }, [location.pathname, savedArticles, syncNewsWithSaved]);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -235,7 +294,9 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   onDeleteClick={() => {}}
                   isLoading={isLoading}
-                  onCardLike={handleCardLike}
+                  onCardLike={(article) =>
+                    handleCardLike(article, setNewsItems, topic)
+                  }
                 >
                   {!isSavedNewsPage && <About />}
                 </Main>
@@ -265,6 +326,8 @@ function App() {
             onRegister={handleRegister}
             isLoading={isLoading}
             onLoginClick={openLoginModal}
+            registerError={registerError}
+            setRegisterError={setRegisterError}
           />
 
           <SuccessModal
